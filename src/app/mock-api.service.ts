@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of, timer } from 'rxjs';
 import { delay, map } from 'rxjs/operators';
-import * as uuid from 'uuid/v4';
+import { v4 as uuidv4 } from 'uuid';
 
 export enum RoleTypeEnum {
   student = 'STUDENT',
@@ -39,12 +39,12 @@ export class MockApiService {
     .pipe(
       delay(150+Math.random()*100), // mimic api delay
       map((newUser: User) => {
-        
+
         // check if a name is present
         if(!newUser.name){
           throw Error('Voer een naam in')
         }
-        
+
         // mimic checking for duplicate email
         if(newUser.email === 'jurgen@reconcept.nl'){
           throw Error('Het e-mailadres is al in gebruik')
@@ -65,7 +65,7 @@ export class MockApiService {
     .pipe(
       delay(150+Math.random()*100), // mimic api delay
       map((newRole: Role) => {
-        
+
         // check if the type is good
         if(newRole.roleType !== 'STUDENT' && newRole.roleType !== 'TEACHER'){
           throw Error('De opgegeven rol is niet bekend')
@@ -98,9 +98,9 @@ export class MockApiService {
   private getUser(name: string, email: string): User {
 
     return {
-      
+
       // generate a random id
-      id: uuid(),
+      id: uuidv4(),
 
       // set name
       name: name,
@@ -109,15 +109,15 @@ export class MockApiService {
       email: email
 
     }
-    
+
   }
 
   private getRole(forUserId: string, roleType: RoleTypeEnum): Role {
 
     return {
-      
+
       // generate a random id
-      id: uuid(),
+      id: uuidv4(),
 
       // set userId
       userId: forUserId,
@@ -126,21 +126,21 @@ export class MockApiService {
       roleType: roleType
 
     }
-    
+
   }
 
   private getPortfolio(forUserId: string): Portfolio {
 
     return {
-      
+
       // generate a random id
-      id: uuid(),
+      id: uuidv4(),
 
       // set userId
       userId: forUserId
 
     }
-    
+
   }
 
 }
