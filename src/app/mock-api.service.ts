@@ -8,6 +8,14 @@ export enum RoleTypeEnum {
   teacher = 'TEACHER'
 }
 
+export function getRoleTypeStrings(): string[] {
+  const roleTypes: string[] = [];
+
+  Object.keys(RoleTypeEnum).forEach(roleType => roleTypes.push(roleType.toUpperCase()));
+
+  return roleTypes;
+}
+
 export interface User {
   id: string;
   name: string;

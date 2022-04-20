@@ -1,0 +1,58 @@
+table {
+  margin: 30px 0;
+}
+
+table tr th {
+  text-align: left;
+}
+
+tabe tr, td {
+  height: 23px;
+}
+
+table tr:nth-child(even) {
+  background-color: #eee;
+}
+
+.table__row--error {
+  color: #9a3e3e;
+}
+
+.table__row--success {
+  color: darkseagreen;
+}
+
+h1, .button-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+button {
+  padding: 8px 16px;
+  color: white;
+  background-color: #444;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 3px 3px 4px #ddd;
+  margin: 10px;
+}
+
+button:hover {
+  cursor: pointer;
+  background-color: #777;
+  box-shadow: 3px 3px 4px -2px #aaa;
+}
+
+.button--submit {
+  position: sticky;
+float: right;
+  z-index: 10;
+  margin-right: 50px;
+  bottom: 50px;
+  background-color: #64a464;
+}
+
+.button--submit:hover {
+  background-color: #81b681;
+}
