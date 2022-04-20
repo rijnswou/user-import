@@ -10,7 +10,8 @@ import {UserUpload} from './types/user-upload.type';
 })
 export class UserImportComponent implements OnInit {
 
-  title: string = 'Welcome to UserImport!';
+  readonly title: string = 'Welcome to UserImport!';
+
   userUploads: UserUpload[] = [];
   editMode: boolean = false;
   hideSuccessStatus: boolean = true;

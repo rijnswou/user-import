@@ -1,121 +1,134 @@
+<h1>
+  {{title}}
+</h1>
 
+<div class="button-container">
 
-  <h1>
-    {{title}}
-  </h1>
+  <button type="button" (click)="toggleEditMode()">
+    <span *ngIf="!editMode else editModeOff">Edit mode</span>
+    <ng-template #editModeOff>
+      <span>Display mode</span>
+    </ng-template>
+  </button>
 
-  <div class="button-container">
-    <button type="button" (click)="toggleEditMode()">
-      <span *ngIf="!editMode else editModeOff">Edit mode</span>
-      <ng-template #editModeOff>
-        <span>Display mode</span>
-      </ng-template>
-    </button>
+  <button type="button" (click)="toggleSuccessFilter()">
+    <span *ngIf="hideSuccessStatus else hideSuccess">Show successful uploads</span>
+    <ng-template #hideSuccess>
+      <span>Hide successful uploads</span>
+    </ng-template>
+  </button>
 
-    <button type="button" (click)="toggleSuccessFilter()">
-      <span *ngIf="hideSuccessStatus else hideSuccess">Show successful uploads</span>
-      <ng-template #hideSuccess>
-        <span>Hide successful uploads</span>
-      </ng-template>
-    </button>
-  </div>
+</div>
 
-  <form #userForm>
-    <!-- An editable copy of the rawData -->
-    <table width="100%">
+<form #userForm>
+  <!-- An editable copy of the rawData -->
+  <table>
+    <caption>This is a copy of the imported data, it can be edited in edit mode</caption>
 
-      <tr>
-        <th>
-          Naam
-        </th>
-        <th>
-          E-mail
-        </th>
-        <th>
-          Rol
-        </th>
-        <th>
-          Status
-        </th>
-        <th>
-          Message
-        </th>
-        <th>
-          UserId
-        </th>
-        <th>
-          RoleId
-        </th>
-        <th>
-          PortfolioId
-        </th>
+    <tr>
+      <th scope="col">
+        Naam
+      </th>
+      <th scope="col">
+        E-mail
+      </th>
+      <th scope="col">
+        Rol
+      </th>
+      <th scope="col">
+        Status
+      </th>
+      <th scope="col">
+        Message
+      </th>
+      <th scope="col">
+        UserId
+      </th>
+      <th scope="col">
+        RoleId
+      </th>
+      <th scope="col">
+        PortfolioId
+      </th>
+    </tr>
+
+    <ng-container *ngFor="let userUpload of userUploads">
+
+      <tr *ngIf="!(hideSuccessStatus && userUpload.status === 'success')"
+          [class.table__row--error]="userUpload.status === 'error'"
+          [class.table__row--success]="userUpload.status === 'success'">
+
+        <td>
+          <ng-container *ngIf="!editMode else nameInput">
+            {{userUpload.rawUser.name}}
+          </ng-container>
+          <ng-template #nameInput>
+            <input type="text"
+                   class="form-control"
+                   id="name"
+                   name="name-{{userUpload.rawUser.email}}"
+                   [(ngModel)]="userUpload.rawUser.name"
+                   [value]="userUpload.rawUser.name"
+                   #name>
+          </ng-template>
+        </td>
+
+        <td>
+          <ng-container *ngIf="!editMode else emailInput">
+            {{userUpload.rawUser.email}}
+          </ng-container>
+          <ng-template #emailInput>
+            <input type="text"
+                   class="form-control"
+                   id="email"
+                   name="email-{{userUpload.rawUser.email}}"
+                   [(ngModel)]="userUpload.rawUser.email"
+                   [value]="userUpload.rawUser.email"
+                   #email>
+          </ng-template>
+        </td>
+
+        <td>
+          <ng-container *ngIf="!editMode else roleInput">
+            {{userUpload.rawUser.role}}
+          </ng-container>
+          <ng-template #roleInput>
+            <input type="text"
+                   class="form-control"
+                   id="role"
+                   name="role-{{userUpload.rawUser.email}}"
+                   [(ngModel)]="userUpload.rawUser.role"
+                   [value]="userUpload.rawUser.role"
+                   #role>
+          </ng-template>
+        </td>
+
+        <td>
+          {{userUpload.status}}
+        </td>
+
+        <td>
+          {{userUpload.message}}
+        </td>
+
+        <td>
+          {{userUpload.userId | slice : 0 : 6}}...
+        </td>
+
+        <td>
+          {{userUpload.roleId | slice : 0 : 6}}...
+        </td>
+
+        <td>
+          {{userUpload.portfolioId | slice : 0 : 6}}...
+        </td>
+
       </tr>
 
-      <ng-container *ngFor="let userUpload of userUploads">
-        <tr *ngIf="!(hideSuccessStatus && userUpload.status === 'success')"
-            [class.table__row--error]="userUpload.status === 'error'"
-            [class.table__row--success]="userUpload.status === 'success'">
-          <td>
-            <ng-container *ngIf="!editMode else nameInput">
-              {{userUpload.rawUser.name}}
-            </ng-container>
-            <ng-template #nameInput>
-              <input type="text"
-                     class="form-control"
-                     id="name"
-                     name="name-{{userUpload.rawUser.email}}"
-                     [(ngModel)]="userUpload.rawUser.name"
-                     [value]="userUpload.rawUser.name"
-                     #name>
-            </ng-template>
-          <td>
-            <ng-container *ngIf="!editMode else emailInput">
-              {{userUpload.rawUser.email}}
-            </ng-container>
-            <ng-template #emailInput>
-              <input type="text"
-                     class="form-control"
-                     id="email"
-                     name="email-{{userUpload.rawUser.email}}"
-                     [(ngModel)]="userUpload.rawUser.email"
-                     [value]="userUpload.rawUser.email"
-                     #email>
-            </ng-template>
-          </td>
-          <td>
-            <ng-container *ngIf="!editMode else roleInput">
-              {{userUpload.rawUser.role}}
-            </ng-container>
-            <ng-template #roleInput>
-              <input type="text"
-                     class="form-control"
-                     id="role"
-                     name="role-{{userUpload.rawUser.email}}"
-                     [(ngModel)]="userUpload.rawUser.role"
-                     [value]="userUpload.rawUser.role"
-                     #role>
-            </ng-template>
-          </td>
-          <td>
-            {{userUpload.status}}
-          </td>
-          <td>
-            {{userUpload.message}}
-          </td>
-          <td>
-            {{userUpload.userId | slice : 0 : 6}}...
-          </td>
-          <td>
-            {{userUpload.roleId | slice : 0 : 6}}...
-          </td>
-          <td>
-            {{userUpload.portfolioId | slice : 0 : 6}}...
-          </td>
-        </tr>
-      </ng-container>
+    </ng-container>
 
-    </table>
-  </form>
+  </table>
+</form>
 
 <button type="button"
         class="button--submit"
