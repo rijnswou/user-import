@@ -54,9 +54,9 @@
 
     <ng-container *ngFor="let userUpload of userUploads">
 
-      <tr *ngIf="!(hideSuccessStatus && userUpload.status === 'success')"
-          [class.table__row--error]="userUpload.status === 'error'"
-          [class.table__row--success]="userUpload.status === 'success'">
+      <tr *ngIf="!(hideSuccessStatus && userUpload.status === 'Success')"
+          [class.table__row--error]="userUpload.status === 'Error'"
+          [class.table__row--success]="userUpload.status === 'Success'">
 
         <td>
           <ng-container *ngIf="!editMode else nameInput">
