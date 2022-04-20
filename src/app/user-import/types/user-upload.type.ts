@@ -1,6 +1,12 @@
 import {RawUser} from './raw-user.type';
 
-export type UploadStatus = 'to do' | 'in progress' | 'success' | 'error';
+export enum UploadStatus {
+  ToDo = 'TO DO',
+  InProgress = 'IN PROGRESS',
+  Success = 'Success',
+  Error =  'Error'
+}
+
 
 // wrapper to keep track of uploadstatus
 export class UserUpload {
@@ -13,6 +19,6 @@ export class UserUpload {
 
   constructor(rawUser: { name: string; email: string; role: string }) {
     this.rawUser = rawUser;
-    this.status = 'to do';
+    this.status = UploadStatus.ToDo;
   }
 }

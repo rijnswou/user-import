@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {rawData} from '../raw-data';
 import {getRoleTypeStrings, MockApiService, Portfolio, Role, RoleTypeEnum, User} from '../mock-api.service';
-import {UserUpload} from './types/user-upload.type';
+import {UploadStatus, UserUpload} from './types/user-upload.type';
 
 @Component({
   selector: 'app-user-import',
@@ -55,7 +55,7 @@ export class UserImportComponent implements OnInit {
         }
       }
 
-      if (userUpload.status !== 'success' && !userUpload.userId) {
+      if (userUpload.status !== UploadStatus.Success && !userUpload.userId) {
         this.createUser(userUpload);
       }
 
@@ -74,7 +74,7 @@ export class UserImportComponent implements OnInit {
         },
         error: (err) => this.setStatusError(userUpload, err),
         complete: () => {
-          if (userUpload.status !== 'error') {
+          if (userUpload.status !== UploadStatus.Error) {
             this.setStatusSuccess(userUpload);
           }
         }
@@ -125,10 +125,10 @@ export class UserImportComponent implements OnInit {
   }
 
   //TODO ask Gerhard how to handle the string vs enum situation.
-  // imho the mockApi needs a change, but it can't be changed
+  // imho the mockApi needs a change, but the assignment say I can't.
   // mockApi.createRole accepts a RoleTypeEnum and then checks if the roleType is correct
-  // An incorrect roleType string can't be converted to an enum, therefore I think a string should be
-  // accepted aswell like this: createRole(forUserId: string, roleType: RoleTypeEnum | string)
+  // An incorrect roleType string can't be converted to an enum (or I'm missing something here :-) ),
+  // therefore I think a string should be accepted as well, like this: createRole(forUserId: string, roleType: RoleTypeEnum | string)
   // and the validation should be the first thing to check in the createRole method
   tempRoleConvert(role: string): RoleTypeEnum{
     let roleType: RoleTypeEnum;
@@ -144,19 +144,19 @@ export class UserImportComponent implements OnInit {
 
   setStatusInProgress(userUpload: UserUpload): void {
 
-    userUpload.status = 'in progress';
+    userUpload.status = UploadStatus.InProgress;
     userUpload.message = '';
   }
 
   setStatusError(userUpload: UserUpload, error: any): void {
 
-    userUpload.status = 'error';
+    userUpload.status = UploadStatus.Error;
     userUpload.message = error;
   }
 
   setStatusSuccess(userUpload: UserUpload): void {
 
-    userUpload.status = 'success';
+    userUpload.status = UploadStatus.Success;
     userUpload.message = '';
   }
 
